@@ -12,7 +12,7 @@ module Creepin
       @request_params.reverse_merge(options[:params]) if options.has_key?(:params)
       @loaded_resource = options[:loaded_resource] if options.has_key?(:loaded_resource)
       
-      class_name = "#{name.camelize}ResourceCreeper"
+      class_name = ActiveSupport::Inflector.camelize "#{name}ResourceCreeper"
       klass = Class.new ResourceCreeper
       dsl_methods = @config.keys
       creeper_class = Object.const_set(class_name, klass)

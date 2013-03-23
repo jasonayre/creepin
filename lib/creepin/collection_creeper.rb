@@ -1,16 +1,26 @@
 module Creepin
   class CollectionCreeper
+
   
-    attr_accessor :stats, :total_records, :total_pages, :loaded_collection, :started_at, :finished_at, :requested_urls
+    attr_accessor :stats, :total_records, :total_pages, :loaded_collection, :started_at, :finished_at, :requested_urls, :response_html, :requested_url
   
     def initialize(params = {})
       @params ||= {}
       @params = params if params.present?
+      @config ||= {}
       @total_records ||= 0
       @total_pages ||= 0
       @loaded_collection ||= []
       @requested_urls ||= []
     end
+    
+    # def base_url=(string)
+    #   @config[:base_url] = string
+    # end
+    
+    # def base_url
+    #   @config[:base_url]
+    # end
   
     def run_after_crawl_callbacks
       transmit
@@ -124,7 +134,7 @@ module Creepin
     end
   
     def next_page?
-      return false if next_page_selector.nil?
+      return false if (respond_to?(:next_page_selector) == false) || next_page_selector.nil?
       if next_page_selector.is_a?(Proc)
         next_page_url = instance_exec(@response_html.document, &next_page_selector)
         build_request_params(next_page_url) if next_page_url.present?

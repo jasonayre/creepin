@@ -10,8 +10,7 @@ module Creepin
       @request_params.merge(settings[:default_params]) if settings.has_key?(:default_params)
       @request_params.reverse_merge(options[:params]) if options.has_key?(:params)
       
-      class_name = "#{name.camelize}CollectionCreeper"
-      puts class_name
+      class_name = ActiveSupport::Inflector.camelize "#{name}CollectionCreeper"
       klass = Class.new CollectionCreeper
       dsl_methods = @config.keys
       @creeper_class = Object.const_set(class_name, klass)
@@ -52,6 +51,18 @@ module Creepin
           }
         end
         
+      end
+      
+      unless @config[:base_url].present?
+        @creeper_class.class_eval do
+          def base_url=(string)
+            @config[:base_url] = string
+          end
+        
+          def base_url
+            @config[:base_url]
+          end
+        end
       end
       
     end

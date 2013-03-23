@@ -21,4 +21,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'httparty'
   gem.add_dependency 'aasm'
   gem.add_dependency 'nokogiri'
+  gem.add_dependency 'capybara'
+  gem.add_dependency 'rspec'
+  
 end

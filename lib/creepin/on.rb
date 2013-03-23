@@ -15,6 +15,10 @@ module Creepin
     def resource(*options, &block)
       Creepin::Resource.new(@name, *options, &block)
     end
+    
+    def routine(*options, &block)
+      Creepin::Routine.new(@name, *options, &block)
+    end
       
   end
   
